@@ -21,7 +21,8 @@ Id            | Name          | Email         | Password
   2. 『server_side』フォルダにあるPHPファイルはローカルの『htdocs』に貼り付けてください。
   3. 次は、『RidePool』フォルダにある『RegisterViewController.swift』と『LoginViewController.swift』の中NSURL部分にローカルホストのIPアドレスを設定させるになります。
  
-4.sdsds
+4.アプリ使い方は次の通りです。
+  1.まず、アカウント登録が必要になります。
 ## History
 TODO: Write history
 ## Credits
