@@ -22,8 +22,9 @@ Id            | Name          | Email         | Password
   3. 次は、『RidePool』フォルダにある『RegisterViewController.swift』と『LoginViewController.swift』の中NSURL部分にローカルホストのIPアドレスを設定させるになります。
  
 4.アプリ使い方は次の通りです。
-  1.まず、アカウント登録が必要になります。
-  2.登録とロギンした後、メインのウィンドに小さな虫眼鏡アイコンをクリックして、探索バーとタイムピーカーが出てきます。
+    1.まず、アカウント登録が必要になります。
+    2.登録とロギンした後、メインのウィンドに小さな虫眼鏡アイコンをクリックして、探索バーとタイムピーカーが出てきます。
+  
 ## History
 TODO: Write history
 ## Credits
