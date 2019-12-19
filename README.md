@@ -11,7 +11,7 @@ RidePoolアプリはお客さんが無料でどこからどこまである時間
 
 3.アプリを適当に動くために、まずサーバの設定が必要になります。
 
-  1.ds
+    1.ds
   
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
