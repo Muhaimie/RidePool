@@ -8,14 +8,14 @@
 UI順番がバラバラになる可能性もあります
 ＃開発はあぷりがわ側とサーバ側で分けれております。
 ＃アプリを適当に動くために、まずサーバの設定が必要になります。
-	１。ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
+	1.ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
 			＋テーブルデータ＋
 				Id : 自動的増加
 				Name: VARCHAR
 				Email : VARCHAR
 				Password : VARCHAR
-	２。『server_side』フォルダにあるPHPファイルはローカルの『htdocs』に貼り付けてください。
-	３。次は、『RidePool』フォルダにある『RegisterViewController.swift』と『LoginViewController.swift』の中でNSURL部分にローカルホストのIPアドレスを設定させるになります。
+	2.『server_side』フォルダにあるPHPファイルはローカルの『htdocs』に貼り付けてください。
+	3.次は、『RidePool』フォルダにある『RegisterViewController.swift』と『LoginViewController.swift』の中でNSURL部分にローカルホストのIPアドレスを設定させるになります。
 
 ＃アプリ使い方は次の通りです。
 	１。まず、アカウント登録が必要になります。
