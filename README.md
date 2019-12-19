@@ -12,7 +12,7 @@ RidePoolアプリはお客さんが無料でどこからどこまである時間
 3.アプリを適当に動くために、まずサーバの設定が必要になります。
   1. ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
   
-First Header  | Second Header | Second Header | Second Header 
+Id            | Name          | Second Header | Second Header 
 ------------- | ------------- | ------------- | -------------
 Content Cell  | Content Cell  | Content Cell  | Content Cell
 Content Cell  | Content Cell  | Content Cell  | Content Cell
