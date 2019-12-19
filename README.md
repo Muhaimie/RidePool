@@ -20,7 +20,8 @@ Id            | Name          | Email         | Password
 
   2. 『server_side』フォルダにあるPHPファイルはローカルの『htdocs』に貼り付けてください。
   3. 次は、『RidePool』フォルダにある『RegisterViewController.swift』と『LoginViewController.swift』の中NSURL部分にローカルホストのIPアドレスを設定させるになります。
-  
+ 
+ 
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 ## History
