@@ -9,8 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
-import GooglePlaces
-import GooglePlaces
+
 
 
 
@@ -23,10 +22,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDelega
     var user:Profile?
    
     
-    var searchResults1:[String] = []
-    var searchResults2:[String] = []
+    var searchResults1:String?
+    var searchResults2:String?
     
-    
+    //array contain the search data
+    var searchSource :[String] = []
     
     
     @IBOutlet weak var mapView:MKMapView!
@@ -40,6 +40,18 @@ class ViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDelega
     @IBOutlet weak var tableView1 :UITableView!
     @IBOutlet weak var tableView2 : UITableView!
     
+    
+    
+    // create some lazy variable for the search completer
+    
+    lazy var searchCompleter : MKLocalSearchCompleter = {
+        let sC = MKLocalSearchCompleter()
+        sC.delegate = self
+        return sC
+    }()
+    
+    //lazy geocoder initialization
+    lazy var geocoder = CLGeocoder()
     
 
     override func viewDidLoad() {
@@ -102,42 +114,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDelega
     
     
     
-    
-    //MARK: Autocomplete fucntion
-    
-    func placeAutocomplete(text_input:String)->[String]{
-        
-        var searchResult :[String] = []
-        
-        let filter = GMSAutocompleteFilter()
-        let placesClient = GMSPlacesClient()
-        filter.type = .address
-              
-        let bounds =  GMSCoordinateBounds(coordinate:mapView.userLocation.coordinate, coordinate: CLLocationCoordinate2D(latitude: 13.343668, longitude: 80.272055))
-              
-              placesClient.autocompleteQuery(text_input, bounds: bounds, filter: nil){
-                  (results,error)-> Void in
-                  
-                self.searchResults2.removeAll()
-                self.searchResults1.removeAll()
-                  
-                  if let error = error{
-                      print("Autocomplete error \(error)")
-                  }
-                  
-                  if let results = results{
-                      
-                      for result in results{
-                        searchResult.append(result.attributedPrimaryText.string)
-                      }
-                  }
-                  
-                
-                    
-              }
-        
-            return searchResult
-        }
 
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -155,6 +131,36 @@ class ViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDelega
         
     }
     
+    //MARK: Forward Geocoding function
+    
+    func geocoder(location : String){
+        
+
+        geocoder.geocodeAddressString(location){
+            (placemarks, error) in
+            self.processResponse(withPlacemarks : placemarks, error : error)
+        }
+        
+        
+    }
+    
+    func processResponse(withPlacemarks placemarks:[CLPlacemark]?, error:Error?){
+        
+        if let error = error{
+            print("Unable to forward geocode address(\(error))")
+        }else{
+            var location :CLLocation?
+            
+            if let placemarks = placemarks, placemarks.count > 0{
+                location = placemarks.first?.location
+            }
+            if let location = location{
+                let coordinate = location.coordinate
+            }else{
+                print("no matching location found")
+            }
+        }
+    }
     
     //MARK: IB function
     
@@ -238,22 +244,23 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         if tableView == tableView1{
-            if searchResults1.count == 0{
-                searchResults1.append("Current Location")
+            if searchSource.count == 0{
+                searchSource.append("Current Location")
             }
-            return searchResults1.count
-            
+
+            return searchSource.count
+
         }
-        
-        else{
-                if searchResults2.count == 0{
-                       searchResults2.append("Current Location")
+
+        else if tableView == tableView2{
+                if searchSource.count == 0{
+                       searchSource.append("Current Location")
                    }
-            return searchResults2.count
+            return searchSource.count
+
+            }
         
-               }
-        
-        
+        return searchSource.count
     
     }
     
@@ -264,14 +271,14 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate{
         
         if tableView == tableView1{
             let cell = tableView1.dequeueReusableCell(withIdentifier: "SearchFrom") as! UITableViewCell
-            cell.textLabel?.text = searchResults1[indexPath.row]
+            cell.textLabel?.text = searchSource[indexPath.row]
 
             return cell
         }
 
         else{
             let cell = tableView2.dequeueReusableCell(withIdentifier: "SearchTo") as! UITableViewCell
-            cell.textLabel?.text = searchResults2[indexPath.row]
+            cell.textLabel?.text = searchSource[indexPath.row]
 
             return cell
         }
@@ -284,23 +291,25 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate{
         
         
         if tableView == tableView1{
-            if searchResults1.count == 0{
-                searchResults1.append("Current Location")
+            if searchSource.count == 0{
+                searchSource.append("Current Location")
             }
-            searchFrom.text = searchResults1[indexPath.row]
-                tableView1.isHidden = true
-            
+            searchFrom.text = searchSource[indexPath.row]
+            searchResults1 = searchSource[indexPath.row]
+            tableView1.isHidden = true
+            searchSource.removeAll()
             searchFrom.endEditing(true)
             
         }
         
         if tableView == tableView2{
-            if searchResults2.count == 0{
-                searchResults2.append("Current Location")
+            if searchSource.count == 0{
+                searchSource.append("Current Location")
             }
-            searchTo.text = searchResults2[indexPath.row]
+            searchTo.text = searchSource[indexPath.row]
+            searchResults2 = searchSource[indexPath.row]
             tableView2.isHidden = true
-            
+            searchSource.removeAll()
             searchTo.endEditing(true)
 
         }
@@ -321,22 +330,37 @@ extension ViewController:UISearchBarDelegate{
         
         
         if searchBar == searchFrom{
-            var text = searchBar.text
-            placeAutocomplete(text_input: text!)
+            
+            if !searchText.isEmpty{
+            searchCompleter.queryFragment = searchText
+
+            }
+
             tableView1.isHidden = false
             tableView1.reloadData()
-            
-            
-        }
-        
-        if searchBar == searchTo{
-            var text = searchBar.text
-            placeAutocomplete(text_input: text!)
-            tableView2.isHidden = false
-            tableView2.reloadData()
-            
+
 
         }
+
+        if searchBar == searchTo{
+            
+            if !searchText.isEmpty{
+                searchCompleter.queryFragment = searchText
+
+            }
+
+            tableView2.isHidden = false
+            tableView2.reloadData()
+
+
+        }
+        
+//        if searchBar == searchFrom{
+//            if !searchText.isEmpty{
+//                searchCompleter.queryFragment = searchText
+//
+//            }
+//        }
         
         
         
@@ -346,14 +370,16 @@ extension ViewController:UISearchBarDelegate{
         
         if searchBar == searchFrom{
             searchFrom.text = ""
+            searchSource.removeAll()
             tableView1.reloadData()
             tableView1.isHidden = true
-        
+    
 
         }
         
         if searchBar == searchTo{
             searchTo.text = ""
+            searchSource.removeAll()
             tableView2.reloadData()
             tableView2.isHidden = true
 
@@ -373,3 +399,32 @@ extension ViewController:UISearchBarDelegate{
     }
 }
 
+
+
+//MARK: Search Completer delegate
+extension ViewController:MKLocalSearchCompleterDelegate{
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+         
+            self.searchSource = completer.results.map {
+                $0.title
+                
+                
+            }
+        DispatchQueue.main.async{
+            self.tableView1.reloadData()
+            self.tableView2.reloadData()
+        }
+        
+            
+        
+        
+    }
+    
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        // error handle
+        
+        print("MKCompleter error : \(error)")
+    }
+}
