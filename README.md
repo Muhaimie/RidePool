@@ -10,7 +10,7 @@ RidePoolアプリはお客さんが無料でどこからどこまである時間
 2.開発はあぷりがわ側とサーバ側で分けれております。
 
 3.アプリを適当に動くために、まずサーバの設定が必要になります。
-  1. Ad d
+  1. ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
   2. dsd
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
