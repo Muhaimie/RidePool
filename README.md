@@ -1,7 +1,8 @@
 
 
- # 1:Project Name}
-TODO: Write a project description
+# RidePool
+RidePoolアプリはお客さんが無料でどこからどこまである時間に一緒に車やバイクなどの乗りサービスを
+予約できるというのアプリであります。
 ## Installation
 TODO: Describe the installation process
 ## Usage
