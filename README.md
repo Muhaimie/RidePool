@@ -11,7 +11,7 @@ RidePoolアプリはお客さんが無料でどこからどこまである時間
 
 3.アプリを適当に動くために、まずサーバの設定が必要になります。
 
-Markup: * ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
+Markup : * ローカルにSQLデータっベース(名前：ridePool)を作り、テーブル名前（USER＿DATA）とテーブルデータを初期することが必要になります。
     
   
 4. Push to the branch: `git push origin my-new-feature`
