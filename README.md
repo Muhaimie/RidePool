@@ -24,11 +24,4 @@ Id            | Name          | Email         | Password
 4. アプリ使い方は次の通りです。
     1. まず、アカウント登録が必要になります。
     2. 登録とロギンした後、メインのウィンドに小さな虫眼鏡アイコンをクリックして、探索バーとタイムピーカーが出てきます。
-      1. 探索バー（乗り場所からと到着場所までで分かれる）
-## History
-TODO: Write history
-## Credits
-TODO: Write credits
-## License
-TODO: Write license
-]]
+      * 探索バー（乗り場所からと到着場所までで分かれる）
